@@ -1,18 +1,18 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Tribal Gamification Apis",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo/BrandNameLogo.jpeg",
+    "light": "/logo/logo-light.png"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/logo-favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#FA8100",
+    "light": "#FF9E22",
+    "dark": "#FA8100",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#FF9E22",
+      "to": "#FA8100"
     }
   },
   "topbarLinks": [

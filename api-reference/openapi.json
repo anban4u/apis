@@ -1,94 +1,77 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
+    "title": "GameApi",
+    "version": "1.0"
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
+      "url": "https://gameapi.tribalarena.com"
     }
   ],
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
+    "/api/Activity/create": {
+      "post": {
+        "tags": [
+          "Activity"
+        ],
         "parameters": [
           {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
+            "name": "x-ta-tenant-jwt",
+            "in": "header",
+            "description": "This is required for all api calls. Ask support to or check out the docs on how to generate this.",
+            "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
         "requestBody": {
-          "description": "Plant to add to the store",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "$ref": "#/components/schemas/ActivityModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivityModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivityModel"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
-            "description": "plant response",
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
+                  "$ref": "#/components/schemas/ActivityModel"
                 }
               }
             }
           },
           "400": {
-            "description": "unexpected error",
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -96,32 +79,285 @@
         }
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
+    "/api/Activity": {
+      "get": {
+        "tags": [
+          "Activity"
+        ],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
+            "name": "x-ta-tenant-jwt",
+            "in": "header",
+            "description": "This is required for all api calls. Ask support to or check out the docs on how to generate this.",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
+          "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActivityModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Activity/history": {
+      "get": {
+        "tags": [
+          "Activity"
+        ],
+        "parameters": [
+          {
+            "name": "x-ta-tenant-jwt",
+            "in": "header",
+            "description": "This is required for all api calls. Ask support to or check out the docs on how to generate this.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActivityLogModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Activity/trigger": {
+      "post": {
+        "tags": [
+          "Activity"
+        ],
+        "parameters": [
+          {
+            "name": "x-ta-tenant-jwt",
+            "in": "header",
+            "description": "This is required for all api calls. Ask support to or check out the docs on how to generate this.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TriggerModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TriggerModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TriggerModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/User/update": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "x-ta-tenant-jwt",
+            "in": "header",
+            "description": "This is required for all api calls. Ask support to or check out the docs on how to generate this.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/User/{userId}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-ta-tenant-jwt",
+            "in": "header",
+            "description": "This is required for all api calls. Ask support to or check out the docs on how to generate this.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Wallet/accounts/expire/{currencyId}/{fromDate}": {
+      "post": {
+        "tags": [
+          "Wallet"
+        ],
+        "parameters": [
+          {
+            "name": "currencyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "fromDate",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "x-ta-tenant-jwt",
+            "in": "header",
+            "description": "This is required for all api calls. Ask support to or check out the docs on how to generate this.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Wallet/accounts": {
+      "get": {
+        "tags": [
+          "Wallet"
+        ],
+        "parameters": [
+          {
+            "name": "x-ta-tenant-jwt",
+            "in": "header",
+            "description": "This is required for all api calls. Ask support to or check out the docs on how to generate this.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountModel"
+                  }
                 }
               }
             }
@@ -132,63 +368,619 @@
   },
   "components": {
     "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
+      "AccountModel": {
         "type": "object",
         "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
-          "message": {
-            "type": "string"
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "key": {
+            "type": "string",
+            "nullable": true
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "partnerId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "loadedFromCache": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "string",
+            "nullable": true
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": {
+              "nullable": true
+            },
+            "nullable": true
+          },
+          "context": {
+            "$ref": "#/components/schemas/ContextNames"
+          },
+          "balance": {
+            "type": "number",
+            "format": "double"
+          },
+          "currencyType": {
+            "$ref": "#/components/schemas/CurrencyType"
+          },
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AccountType"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "purpose": {
+            "type": "string",
+            "nullable": true
+          },
+          "isFrozen": {
+            "type": "boolean"
+          },
+          "isLocked": {
+            "type": "boolean"
+          },
+          "accountSponsorId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "rewardStrategyId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "transactionSummary": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StringDecimalStringStringStringInt32Int32ValueTuple"
+            },
+            "nullable": true
+          },
+          "payoutInfo": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "nullable": true
+            },
+            "nullable": true
+          },
+          "country": {
+            "$ref": "#/components/schemas/CountryType"
+          },
+          "lockedBalance": {
+            "type": "number",
+            "format": "double"
           }
-        }
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+        },
+        "additionalProperties": false
+      },
+      "AccountType": {
+        "enum": [
+          "global",
+          "user",
+          "partner",
+          "rewardStrategy",
+          "gatewayInput",
+          "gatewayOutput"
+        ],
+        "type": "string"
+      },
+      "ActivityLogModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "key": {
+            "type": "string",
+            "nullable": true
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "partnerId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "loadedFromCache": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "string",
+            "nullable": true
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": {
+              "nullable": true
+            },
+            "nullable": true
+          },
+          "context": {
+            "$ref": "#/components/schemas/ContextNames"
+          },
+          "activityId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "transactionId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ActivityStatusType"
+          },
+          "narration": {
+            "type": "string",
+            "nullable": true
+          },
+          "detailedError": {
+            "type": "string",
+            "nullable": true
+          },
+          "transactionModel": {
+            "$ref": "#/components/schemas/TransactionModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActivityModel": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "defaultAmountPerTransaction": {
+            "type": "number",
+            "format": "double"
+          },
+          "minAmountPerTransaction": {
+            "type": "number",
+            "format": "double"
+          },
+          "maxAmountPerTransaction": {
+            "type": "number",
+            "format": "double"
+          },
+          "interval": {
+            "$ref": "#/components/schemas/DateInterval"
+          },
+          "maxTransactionsPerInterval": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userRole": {
+            "$ref": "#/components/schemas/UserRoleType"
+          },
+          "roleLevel": {
+            "$ref": "#/components/schemas/RoleLevelType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActivityStatusType": {
+        "enum": [
+          "duplicate",
+          "completed",
+          "cancelled",
+          "failed"
+        ],
+        "type": "string"
+      },
+      "ContextNames": {
+        "enum": [
+          "ecosystem",
+          "league",
+          "money",
+          "game",
+          "quizGame",
+          "cashFree",
+          "marketing",
+          "analysis",
+          "commerce",
+          "partners"
+        ],
+        "type": "string"
+      },
+      "CountryType": {
+        "enum": [
+          "india",
+          "usa",
+          "notAvailable"
+        ],
+        "type": "string"
+      },
+      "CurrencyType": {
+        "enum": [
+          "inr",
+          "trinket"
+        ],
+        "type": "string"
+      },
+      "DateInterval": {
+        "enum": [
+          "year",
+          "quarter",
+          "month",
+          "dayOfYear",
+          "day",
+          "weekOfYear",
+          "weekday",
+          "hour",
+          "minute",
+          "second"
+        ],
+        "type": "string"
+      },
+      "GenderType": {
+        "enum": [
+          "male",
+          "female",
+          "other"
+        ],
+        "type": "string"
+      },
+      "LockType": {
+        "enum": [
+          "open",
+          "locked",
+          "rejected"
+        ],
+        "type": "string"
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": {}
+      },
+      "RoleLevelType": {
+        "enum": [
+          "cadet",
+          "captain",
+          "major",
+          "lieutenent",
+          "general",
+          "suspend"
+        ],
+        "type": "string"
+      },
+      "StringDecimalStringStringStringInt32Int32ValueTuple": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "TransactionModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "key": {
+            "type": "string",
+            "nullable": true
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "partnerId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "loadedFromCache": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "string",
+            "nullable": true
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "nullable": true
+            },
+            "nullable": true
+          },
+          "context": {
+            "$ref": "#/components/schemas/ContextNames"
+          },
+          "sourceId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "destinationId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mode": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentAccount": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "narration": {
+            "type": "string",
+            "nullable": true
+          },
+          "entityType": {
+            "type": "string",
+            "nullable": true
+          },
+          "entityId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paymentKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "locked": {
+            "$ref": "#/components/schemas/LockType"
+          },
+          "activityId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "isTransactionHistory": {
+            "type": "boolean"
+          },
+          "type": {
+            "$ref": "#/components/schemas/TransactionType"
+          },
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionType": {
+        "enum": [
+          "payout",
+          "debit",
+          "credit"
+        ],
+        "type": "string"
+      },
+      "TriggerModel": {
+        "type": "object",
+        "properties": {
+          "activityId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "narration": {
+            "type": "string",
+            "nullable": true
+          },
+          "uniqueKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "key": {
+            "type": "string",
+            "nullable": true
+          },
+          "deleted": {
+            "type": "boolean"
+          },
+          "partnerId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "loadedFromCache": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "string",
+            "nullable": true
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": {
+              "nullable": true
+            },
+            "nullable": true
+          },
+          "context": {
+            "$ref": "#/components/schemas/ContextNames"
+          },
+          "username": {
+            "maxLength": 100,
+            "type": "string",
+            "nullable": true
+          },
+          "emailId": {
+            "maxLength": 100,
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "isSuspended": {
+            "type": "boolean"
+          },
+          "profilePicUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "verifiedNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "country": {
+            "$ref": "#/components/schemas/CountryType"
+          },
+          "mergedWithUserId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeZone": {
+            "type": "string",
+            "nullable": true
+          },
+          "realName": {
+            "maxLength": 200,
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "pinCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/GenderType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserRoleType": {
+        "enum": [
+          "player",
+          "tribeAdmin",
+          "tribalOrganizer",
+          "gameOwner",
+          "caster",
+          "tribalMod",
+          "god",
+          "tribalPlayer",
+          "tenantTeamMember",
+          "tenantAdmin",
+          "tenantFeatureManager"
+        ],
+        "type": "string"
       }
     }
   }
