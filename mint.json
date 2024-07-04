@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Tribal Gamification Apis",
+  "name": "Horde Gamification Platform",
   "logo": {
     "dark": "/logo/BrandNameLogo.jpeg",
     "light": "/logo/logo-light.png"
@@ -29,6 +29,10 @@
     {
       "name": "API Reference",
       "url": "api-reference"
+    },
+    {
+      "name": "Library Reference",
+      "url":"library-reference"
     }
   ],
   "anchors": [
@@ -58,7 +62,7 @@
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Use Cases",
       "pages": [
         "essentials/markdown",
         "essentials/code",
