@@ -18,7 +18,7 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:raghav@tribalarena.com"
     }
   ],
   "topbarCtaButton": {
@@ -31,7 +31,7 @@
       "url": "api-reference"
     },
     {
-      "name": "Library Reference",
+      "name": "Library",
       "url":"library-reference"
     }
   ],
@@ -64,12 +64,10 @@
     {
       "group": "Use Cases",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "use-cases/currency",
+        "use-cases/commerce",
+        "use-cases/tribes",
+        "use-cases/games"
       ]
     },
     {
@@ -85,11 +83,17 @@
         "api-reference/endpoint/create",
         "api-reference/endpoint/delete"
       ]
+    },
+    {
+      "group": "Library Documentation",
+      "pages": [
+        "library-reference/introduction"
+      ]
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "x": "https://x.com/tribalarena",
+    "github": "https://github.com/horde-lord/horde",
+    "linkedin": "https://www.linkedin.com/company/tribalarena"
   }
 }
